@@ -20,5 +20,16 @@
   "dependencies": {
     "coffee-script": "^1.10.0",
     "yaml": "^0.3.0"
-  }
+  },
+  "directories": {
+    "test": "tests"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/Andifeind/superconf.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Andifeind/superconf/issues"
+  },
+  "homepage": "https://github.com/Andifeind/superconf#readme"
 }
