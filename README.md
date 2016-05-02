@@ -1,7 +1,7 @@
 Superconf
 =========
 
-Superconf is an extensive configuration loadmodule for Node.js.
+Superconf is a configuration loader for Node.js.
 It supports `json`, `cson`, yaml`, `.rc` or `package.json` config formats.
 
 ## Usage
