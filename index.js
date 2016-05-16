@@ -40,7 +40,7 @@ class Superconf {
           let source = fs.readFileSync(filepath, { encoding: 'utf8' });
 
           if (ext === '.cson') {
-            let js = CoffeeScript('module.exports = ' + source);
+            let js = CoffeeScript('module.exports =\n' + source);
             let sandbox = {
               module: {}
             };
