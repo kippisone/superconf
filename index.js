@@ -7,7 +7,9 @@ let path = require('path');
 let yaml = require('yaml');
 
 class Superconf {
-  constructor() {
+  constructor(opts) {
+    opts = opts || {};
+
     this.files = [
       '%s.json',
       '%s.cson',
@@ -16,7 +18,21 @@ class Superconf {
       'package.json'
     ]
 
-    this.cwd = process.cwd();
+    this.cwd = opts.cwd || process.cwd();
+  }
+
+  getFirstExisting(name) {
+    for (let file of this.files) {
+      let filepath = path.join(this.cwd, file.replace('%s', name));
+      try {
+        fs.accessSync(filepath);
+        return filepath;
+      } catch (err) {
+
+      }
+    }
+
+    return null;
   }
 
   tryFiles(name) {
@@ -24,54 +40,57 @@ class Superconf {
       throw new Error('Name arg must be set!');
     }
 
-    for (let file of this.files) {
-      let filepath = path.join(this.cwd, file.replace('%s', name));
-      let ext = path.extname(file);
-      let json;
+    let confFile = this.getFirstExisting(name);
 
-      try {
-        if (ext === '.json') {
-          json = require(filepath);
-          if (file === 'package.json') {
-            json = json[name];
-          }
+    if (!confFile) {
+      return null;
+    }
+
+    let ext = path.extname(confFile);
+    let json;
+
+    try {
+      if (ext === '.json') {
+        json = require(confFile);
+        if (file === 'package.json') {
+          json = json[name];
+        }
+      }
+      else {
+        let source = fs.readFileSync(confFile, { encoding: 'utf8' });
+
+        if (ext === '.cson') {
+          let js = CoffeeScript('module.exports =\n' + source);
+          let sandbox = {
+            module: {}
+          };
+
+          let module = {};
+          eval(js);
+          json = module.exports;
+        }
+        else if (ext === '.yaml') {
+          json = yaml.eval(source);
         }
         else {
-          let source = fs.readFileSync(filepath, { encoding: 'utf8' });
-
-          if (ext === '.cson') {
-            let js = CoffeeScript('module.exports =\n' + source);
-            let sandbox = {
-              module: {}
-            };
-
-            let module = {};
-            eval(js);
-            json = module.exports;
-          }
-          else if (ext === '.yaml') {
-            json = yaml.eval(source);
-          }
-          else {
-            let source = fs.readFileSync(filepath, { encoding: 'utf8' });
-            eval('json = ' + source);
-          }
+          let source = fs.readFileSync(confFile, { encoding: 'utf8' });
+          eval('json = ' + source);
         }
       }
-      catch (err) {
-        //Ignore errors here
-      }
+    }
+    catch (err) {
+      throw new SyntaxError('Could not parse config file: ' + confFile + '\n\n' + err);
+    }
 
-      if (json) {
-        return json;
-      }
+    if (json) {
+      return json;
     }
   }
 }
 
-module.exports = function(name) {
+module.exports = function(name, opts) {
 
-  let sc = new Superconf();
+  let sc = new Superconf(opts);
   return sc.tryFiles(name);
 
 };
