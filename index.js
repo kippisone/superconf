@@ -1,4 +1,5 @@
 'use strict';
+'use strict';
 
 // let cs = require('coffee-script');
 let CoffeeScript = require('coffee-script').compile;
@@ -14,6 +15,7 @@ class Superconf {
       '%s.json',
       '%s.cson',
       '%s.yaml',
+      '%s.yml',
       '.%src',
       'package.json'
     ]
