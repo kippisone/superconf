@@ -1,25 +1,49 @@
 Superconf
 =========
 
-Superconf is a configuration loader for Node.js.
+[![Build Status](https://travis-ci.org/Andifeind/superconf.svg?branch=master)](https://travis-ci.org/Andifeind/superconf)
+
+Superconf is a smart configuration loader for Node.js.
 It supports `json`, `cson`, `yaml`, `.rc` or `package.json` config formats.
 
 ## Usage
 
 ```js
-let superconf = require('superconf');
-let conf = superconf('myconf');
-
+const superconf = require('superconf');
+const conf = superconf('myconf');
 ```
 
 This command loads a configuration from current working dir.
 Superconf tries to load configurations in this order:
 
-<name>.json
-<name>.cson
-<name>.yaml
-.<name>rc
-package.json (returns <name> property)
+* ${name}.json
+* ${name}.cson
+* ${name}.yaml
+* .${name}rc
+* package.json (returns ${name} property)
+
+## Options
+
+### `files` overwrites the files array
+
+```js
+const opts = {
+  files: ['config/development.json', 'config/development.yml']
+}
+
+const conf = superconf('myconf', opts)
+```
+
+### `cwd` set the current working dir
+
+```js
+const opts = {
+  cwd: `${process.cwd()}/config`
+}
+
+const conf = superconf('myconf', opts)
+```
+
 
 ## Merge configs
 
@@ -31,23 +55,23 @@ This method was implemented because Object.assign or lodash.extend handle `undef
 ### *static* merge(left, right[, ...args])
 
 ```js
-let left = {
+const left = {
   fruit: 'Apple',
   vegetable: 'Carrot'
 };
 
-let right = {
+const right = {
   fruit: 'Banana',
   vegetable: undefined
 };
 
-let assgned = Object.assign({}, left, right);
+const assgned = Object.assign({}, left, right);
 // assgned === {
 //   fruit: 'Banana'.
 //   vegetable: undefined
 // }
 
-let conf = superconf.merge(left, right);
+const conf = superconf.merge(left, right);
 // conf === {
 //   fruit: 'Banana',
 //   vegetable: 'Carrot'
@@ -62,21 +86,21 @@ Merge behavior can be changed.
 A static `config()` method can be used to change merge begavior.
 
 ```js
-let left = {
+const left = {
   fruits: {
     red: 'Apple'
   },
   vegetable: 'Carrot'
 };
 
-let right = {
+const right = {
   fruits: {
     yellow: 'Banana'
   },
   vegetable: undefined
 };
 
-let conf = superconf.merge(left, right);
+const conf = superconf.merge(left, right);
 // conf === {
 //   fruits: {
 //     yellow: 'Banana'
@@ -84,7 +108,7 @@ let conf = superconf.merge(left, right);
 //   vegetable: 'Carrot'
 // }
 
-let conf = superconf.config({
+const conf = superconf.config({
   dept: 1
 }).merge(left, right);
 // conf === {
