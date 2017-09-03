@@ -1,6 +1,7 @@
 {
   "name": "test",
   "pkgtest": {
-    "foo": "bar"
+    "foo": "bar",
+    "bla": "blub"
   }
 }

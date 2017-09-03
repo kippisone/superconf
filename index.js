@@ -5,7 +5,7 @@
 let CoffeeScript = require('coffee-script').compile;
 let fs = require('fs');
 let path = require('path');
-let yaml = require('yaml');
+let yaml = require('js-yaml');
 
 class Superconf {
   constructor(opts) {
@@ -72,7 +72,7 @@ class Superconf {
           json = module.exports;
         }
         else if (ext === '.yaml') {
-          json = yaml.eval(source);
+          json = yaml.safeLoad(source);
         }
         else {
           let source = fs.readFileSync(confFile, { encoding: 'utf8' });

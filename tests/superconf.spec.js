@@ -12,7 +12,8 @@ describe('Superconf', () => {
       let conf = superconf('jsontest');
       inspect(conf).isObject();
       inspect(conf).isEql({
-        foo: 'bar'
+        foo: 'bar',
+        bla: 'blub'
       });
     });
 
@@ -21,7 +22,8 @@ describe('Superconf', () => {
       let conf = superconf('csontest');
       inspect(conf).isObject();
       inspect(conf).isEql({
-        foo: 'bar'
+        foo: 'bar',
+        bla: 'blub'
       });
     });
 
@@ -30,7 +32,8 @@ describe('Superconf', () => {
       let conf = superconf('yamltest');
       inspect(conf).isObject();
       inspect(conf).isEql({
-        foo: 'bar'
+        foo: 'bar',
+        bla: 'blub'
       });
     });
 
@@ -39,7 +42,8 @@ describe('Superconf', () => {
       let conf = superconf('rctest');
       inspect(conf).isObject();
       inspect(conf).isEql({
-        foo: 'bar'
+        foo: 'bar',
+        bla: 'blub'
       });
     });
 
@@ -48,7 +52,8 @@ describe('Superconf', () => {
       let conf = superconf('pkgtest');
       inspect(conf).isObject();
       inspect(conf).isEql({
-        foo: 'bar'
+        foo: 'bar',
+        bla: 'blub'
       });
     });
   });

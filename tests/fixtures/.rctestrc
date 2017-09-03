@@ -1,4 +1,5 @@
 {
   //With comments
-  "foo": "bar"
+  "foo": "bar",
+  "bla": "blub"
 }
