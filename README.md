@@ -19,6 +19,7 @@ Superconf tries to load configurations in this order:
 * ${name}.json
 * ${name}.cson
 * ${name}.yaml
+* ${name}.yml
 * .${name}rc
 * package.json (returns ${name} property)
 
