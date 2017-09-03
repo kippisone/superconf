@@ -71,7 +71,7 @@ class Superconf {
           eval(js);
           json = module.exports;
         }
-        else if (ext === '.yaml') {
+        else if (ext === '.yaml' || ext === '.yml') {
           json = yaml.safeLoad(source);
         }
         else {

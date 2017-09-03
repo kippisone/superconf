@@ -37,6 +37,16 @@ describe('Superconf', () => {
       });
     });
 
+    it('Should load a YML conf', () => {
+
+      let conf = superconf('ymltest');
+      inspect(conf).isObject();
+      inspect(conf).isEql({
+        foo: 'bar',
+        bla: 'blub'
+      });
+    });
+
     it('Should load a RC file', () => {
 
       let conf = superconf('rctest');
