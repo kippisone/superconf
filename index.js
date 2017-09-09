@@ -104,7 +104,7 @@ class Superconf {
     let dept = this.mergeConf ? this.mergeConf.dept : 0;
 
     let merge = function(left, right, curdept) {
-      if (left === undefined) {
+      if (left === undefined || left === null) {
         left = {};
       }
 
