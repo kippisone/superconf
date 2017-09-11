@@ -97,6 +97,40 @@ class Superconf {
     return this;
   }
 
+  copy(obj) {
+    if (typeof obj !== 'object' || obj === null) {
+      return obj
+    }
+
+    if (Array.isArray(obj)) {
+      return obj.map((item) => this.copy(item))
+    }
+
+    const copied = {}
+    for (const key in obj) {
+      if (obj.hasOwnProperty(key)) {
+        if (obj[key] === null) {
+          copied[key] = null
+          continue
+        }
+
+        if (Array.isArray(obj[key])) {
+          copied[key] = obj[key].map((item) => this.copy(item))
+          continue
+        }
+
+        if (typeof obj[key] === 'object') {
+          copied[key] = this.copy(obj[key])
+          continue
+        }
+
+        copied[key] = obj[key]
+      }
+    }
+
+    return copied
+  }
+
   merge() {
     let conf = {};
     let args = Array.prototype.slice.call(arguments);
@@ -170,3 +204,4 @@ module.exports.config = function(conf) {
 };
 
 module.exports.merge = Superconf.prototype.merge;
+module.exports.copy = Superconf.prototype.copy.bind(Superconf.prototype);

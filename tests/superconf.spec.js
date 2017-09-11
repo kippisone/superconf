@@ -1,7 +1,7 @@
 'use strict';
 
-let inspect = require('inspect.js');
-let superconf = require('../index.js');
+const inspect = require('inspect.js');
+const superconf = require('../index.js');
 
 process.chdir(__dirname + '/fixtures/');
 
@@ -28,7 +28,6 @@ describe('Superconf', () => {
     });
 
     it('Should load a YAML conf', () => {
-
       let conf = superconf('yamltest');
       inspect(conf).isObject();
       inspect(conf).isEql({
@@ -220,4 +219,78 @@ describe('Superconf', () => {
       });
     });
   });
+
+  describe('copy()', () => {
+    it('copies a config object', () => {
+      const obj = {
+        foo: 'foo',
+        bar: 'bar',
+        bla: {
+          blub: 123
+        }
+      }
+
+      const copied = superconf.copy(obj)
+      inspect(copied).isEql(obj)
+      inspect(copied).isNotEqual(obj)
+      inspect(copied.bla).isNotEqual(obj.bla)
+    })
+
+    it('copies a config object with an array', () => {
+      const three = {
+        number: {
+          digit: 3
+        }
+      }
+
+      const obj = {
+        foo: 'foo',
+        bar: 'bar',
+        bla: [
+          'one',
+          'zwo',
+          three
+        ]
+      }
+
+      const copied = superconf.copy(obj)
+      inspect(copied).isEql(obj)
+      inspect(copied).isNotEqual(obj)
+      inspect(copied.bla).isArray().hasLength(3)
+      inspect(copied.bla).isNotEqual(obj.bla)
+      inspect(copied.bla[2]).isEql(three).isNotEqual(three)
+    })
+
+    it('copies a config object with all existing shit', () => {
+      const three = {
+        number: {
+          digit: 3,
+          str: 'three',
+          used: null,
+          none: undefined
+        }
+      }
+
+      const obj = {
+        foo: 'foo',
+        bar: 'bar',
+        bla: [
+          'one',
+          'zwo',
+          three,
+          123,
+          null,
+          undefined,
+          ['sub-one']
+        ]
+      }
+
+      const copied = superconf.copy(obj)
+      inspect(copied).isEql(obj)
+      inspect(copied).isNotEqual(obj)
+      inspect(copied.bla).isArray().hasLength(7)
+      inspect(copied.bla).isNotEqual(obj.bla)
+      inspect(copied.bla[2]).isEql(three).isNotEqual(three)
+    })
+  })
 });
