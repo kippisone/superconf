@@ -121,3 +121,23 @@ const conf = superconf.config({
 // }
 ```
 This will merge objects together, but only on the first level.
+
+## Copy configs
+
+The `.copy()` method returns a deep copy of the input object. It traverse through all objects and arrays and creates new copies of all objects and arrays.
+
+### *static* copy(*any* obj)
+
+```js
+const obj = {
+  foo: 'foo',
+  bar: {
+    bla: 'bla'
+  }
+}
+
+const copy = superconf.copy(obj)
+
+obj !== copy // true
+obj.bar !== copy.bar // true
+```
