@@ -9,24 +9,37 @@ class Superconf {
   constructor (opts) {
     opts = opts || {}
 
-    this.files = [
+    this.files = opts.files || [
       '%s.json',
       '%s.cson',
       '%s.yaml',
       '%s.yml',
       '.%src',
+      '.%src.json',
+      '.%src.cson',
+      '.%src.yaml',
+      '.%src.yml',
       'package.json'
     ]
+
+    if (opts.defaultConf) {
+      this.files.push(opts.defaultConf)
+    }
 
     this.cwd = opts.cwd || process.cwd()
   }
 
   getFirstExisting (name) {
     for (let file of this.files) {
-      let filepath = path.join(this.cwd, file.replace('%s', name))
+      let filepath = path.resolve(this.cwd, file.replace('%s', name))
       try {
         fs.accessSync(filepath)
-        return filepath
+        if (file === 'package.json') {
+          const json = require(filepath)
+          if (json[name]) return filepath
+        } else {
+          return filepath
+        }
       } catch (err) {
 
       }
