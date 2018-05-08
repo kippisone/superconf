@@ -54,7 +54,43 @@ describe('Superconf', () => {
       })
     })
 
-    it('Should load from package.json', () => {
+    it('Should load a JSON conf', () => {
+      let conf = superconf('rcjsontest')
+      inspect(conf).isObject()
+      inspect(conf).isEql({
+        foo: 'bar',
+        bla: 'blub'
+      })
+    })
+
+    it('Should load a CSON conf', () => {
+      let conf = superconf('rccsontest')
+      inspect(conf).isObject()
+      inspect(conf).isEql({
+        foo: 'bar',
+        bla: 'blub'
+      })
+    })
+
+    it('Should load a YAML conf', () => {
+      let conf = superconf('rcyamltest')
+      inspect(conf).isObject()
+      inspect(conf).isEql({
+        foo: 'bar',
+        bla: 'blub'
+      })
+    })
+
+    it('Should load a YML conf', () => {
+      let conf = superconf('rcymltest')
+      inspect(conf).isObject()
+      inspect(conf).isEql({
+        foo: 'bar',
+        bla: 'blub'
+      })
+    })
+
+    it('Should load a JSON conf', () => {
       let conf = superconf('pkgtest')
       inspect(conf).isObject()
       inspect(conf).isEql({
@@ -62,9 +98,36 @@ describe('Superconf', () => {
         bla: 'blub'
       })
     })
+
+    it('Should load a JSON conf', () => {
+      let conf = superconf('pkgtest')
+      inspect(conf).isObject()
+      inspect(conf).isEql({
+        foo: 'bar',
+        bla: 'blub'
+      })
+    })
+
+    it('Should load a JSON from defaultConf', () => {
+      let conf = superconf('defaulttest', {
+        defaultConf: path.join(__dirname, './fixtures/defaultConf.json')
+      })
+
+      inspect(conf).isObject()
+      inspect(conf).isEql({
+        foo: 'bar',
+        bla: 'blub'
+      })
+    })
+
+    it('Should not load a JSON from defaultConf', () => {
+      let conf = superconf('defaulttest')
+
+      inspect(conf).isNull()
+    })
   })
 
-  describe('merge', function () {
+  describe('merge()', function () {
     it('Should merge object using Object.assign()', function () {
       let left = {
         fruit: 'Apple',
