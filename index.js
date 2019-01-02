@@ -206,5 +206,6 @@ module.exports.config = function (conf) {
   return sc.config(conf)
 }
 
+module.exports.Superconf = Superconf
 module.exports.merge = Superconf.prototype.merge
 module.exports.copy = Superconf.prototype.copy.bind(Superconf.prototype)
