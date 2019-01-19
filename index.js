@@ -97,6 +97,10 @@ class Superconf {
       dept: conf.dept || 0
     }
 
+    if (conf.cwd) {
+      this.cwd = conf.cwd
+    }
+
     return this
   }
 
@@ -208,3 +212,4 @@ module.exports.config = function (conf) {
 
 module.exports.merge = Superconf.prototype.merge
 module.exports.copy = Superconf.prototype.copy.bind(Superconf.prototype)
+module.exports.Superconf = Superconf
