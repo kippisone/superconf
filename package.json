@@ -1,6 +1,6 @@
 {
   "name": "superconf",
-  "version": "1.2.2",
+  "version": "1.2.3",
   "description": "Smart configuration loader",
   "main": "index.js",
   "scripts": {
